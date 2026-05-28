@@ -1,74 +1,67 @@
 
 ## Slide 1
-  - TEXT_BOX (17)  L=0.90in  T=0.70in  W=11.50in  H=0.40in  text='A 3-MINUTE STORY'
-  - TEXT_BOX (17)  L=0.90in  T=1.40in  W=11.50in  H=1.80in  text='Diabetes was the question.\nThe answer is much bigger than di'
-  - TEXT_BOX (17)  L=0.90in  T=3.90in  W=0.60in  H=0.40in  text='Big Idea'
-  - TEXT_BOX (17)  L=0.90in  T=4.35in  W=11.50in  H=2.20in  text='The same female-skewed health burden that shows up in Zambia'
-  - TEXT_BOX (17)  L=0.90in  T=6.80in  W=11.50in  H=0.40in  text='Female disease prevalence  ·  Five conditions, one pattern'
+  - TEXT_BOX (17)  L=0.90in  T=1.60in  W=11.50in  H=2.00in  text='Diabetes was the question.\nThe answer is much bigger than di'
+  - TEXT_BOX (17)  L=0.90in  T=4.30in  W=11.50in  H=2.40in  text='The same female-skewed health burden that shows up in Zambia'
+  - TEXT_BOX (17)  L=0.90in  T=6.85in  W=11.50in  H=0.40in  text='Female disease prevalence  ·  Five conditions, one pattern'
 
 ## Slide 2
-  - TEXT_BOX (17)  L=0.90in  T=0.70in  W=11.50in  H=0.40in  text='THE HOOK  ·  Diabesity Zambia'
-  - TEXT_BOX (17)  L=0.90in  T=1.45in  W=11.50in  H=0.55in  text="Zambia's 2017 STEPS survey"
+  - TEXT_BOX (17)  L=0.90in  T=1.15in  W=11.50in  H=0.55in  text="Zambia's 2017 STEPS survey"
   - TEXT_BOX (17)  L=0.90in  T=2.25in  W=11.50in  H=2.20in  text='24%'
   - TEXT_BOX (17)  L=0.90in  T=4.70in  W=11.50in  H=1.80in  text='more women than men carried multiple non-communicable diseas'
   - TEXT_BOX (17)  L=0.50in  T=7.05in  W=11.40in  H=0.35in  text='Source: Pengpid S, Peltzer K. Prevalence and correlates of m'
 
 ## Slide 3
-  - TEXT_BOX (17)  L=0.90in  T=0.55in  W=11.50in  H=0.40in  text='THE LANDSCAPE'
-  - TEXT_BOX (17)  L=0.90in  T=1.00in  W=11.50in  H=0.70in  text='Female-to-male prevalence ratio, five conditions'
-  - CHART (3)  L=0.90in  T=1.95in  W=11.50in  H=4.90in  text=''
-  - TEXT_BOX (17)  L=0.90in  T=6.85in  W=11.50in  H=0.30in  text='Each bar = how many times more common the condition is in wo'
+  - TEXT_BOX (17)  L=0.90in  T=1.15in  W=11.50in  H=0.90in  text='Female-to-male prevalence ratio, five conditions'
+  - CHART (3)  L=0.90in  T=2.40in  W=11.50in  H=4.40in  text=''
+  - TEXT_BOX (17)  L=0.50in  T=7.05in  W=11.40in  H=0.35in  text='Each bar = how many times more common the condition is in wo'
 
 ## Slide 4
-  - AUTO_SHAPE (1)  L=0.90in  T=0.55in  W=1.80in  H=0.40in  text='AUTOIMMUNE'
-  - TEXT_BOX (17)  L=0.90in  T=1.15in  W=11.50in  H=0.80in  text='Systemic Lupus Erythematosus (Lupus)'
-  - TEXT_BOX (17)  L=0.90in  T=2.00in  W=11.50in  H=0.70in  text="A chronic autoimmune disease where the body's immune system "
-  - TEXT_BOX (17)  L=0.90in  T=3.20in  W=11.50in  H=2.00in  text='9:1'
-  - TEXT_BOX (17)  L=0.90in  T=5.60in  W=11.50in  H=0.60in  text='female-to-male prevalence'
-  - TEXT_BOX (17)  L=0.90in  T=6.20in  W=11.50in  H=0.60in  text='Nine out of every ten people living with lupus are women.'
+  - AUTO_SHAPE (1)  L=0.90in  T=0.55in  W=2.40in  H=0.40in  text='AUTOIMMUNE'
+  - TEXT_BOX (17)  L=0.90in  T=1.15in  W=11.50in  H=0.90in  text='Systemic Lupus Erythematosus (Lupus)'
+  - TEXT_BOX (17)  L=0.90in  T=2.40in  W=6.00in  H=0.45in  text='female-to-male ratio'
+  - TEXT_BOX (17)  L=0.90in  T=2.85in  W=6.00in  H=2.00in  text='9:1'
+  - TEXT_BOX (17)  L=7.20in  T=2.40in  W=5.50in  H=2.40in  text="A chronic autoimmune disease where the body's immune system "
+  - TEXT_BOX (17)  L=7.20in  T=5.00in  W=5.50in  H=1.90in  text='Nine out of every ten people living with lupus are women.'
   - TEXT_BOX (17)  L=0.50in  T=7.05in  W=11.40in  H=0.35in  text='[1] Sex- and gender-related differences in systemic lupus er'
   - TEXT_BOX (17)  L=12.50in  T=7.05in  W=0.60in  H=0.30in  text='4 / 10'
 
 ## Slide 5
-  - AUTO_SHAPE (1)  L=0.90in  T=0.55in  W=2.00in  H=0.40in  text='MUSCULOSKELETAL'
-  - TEXT_BOX (17)  L=0.90in  T=2.00in  W=6.00in  H=0.50in  text='female-to-male ratio'
-  - TEXT_BOX (17)  L=0.90in  T=2.50in  W=6.00in  H=2.00in  text='4.5:1'
-  - TEXT_BOX (17)  L=7.20in  T=1.30in  W=5.50in  H=1.10in  text='Osteoporosis'
-  - TEXT_BOX (17)  L=7.20in  T=2.60in  W=5.50in  H=1.80in  text='A silent bone-thinning disease that makes fractures much mor'
-  - TEXT_BOX (17)  L=7.20in  T=4.80in  W=5.50in  H=1.80in  text='Women over 50 carry roughly 4.5x the diagnosed osteoporosis '
+  - AUTO_SHAPE (1)  L=0.90in  T=0.55in  W=2.40in  H=0.40in  text='MUSCULOSKELETAL'
+  - TEXT_BOX (17)  L=0.90in  T=1.15in  W=11.50in  H=0.90in  text='Osteoporosis'
+  - TEXT_BOX (17)  L=0.90in  T=2.40in  W=6.00in  H=0.45in  text='female-to-male ratio'
+  - TEXT_BOX (17)  L=0.90in  T=2.85in  W=6.00in  H=2.00in  text='4.5:1'
+  - TEXT_BOX (17)  L=7.20in  T=2.40in  W=5.50in  H=2.40in  text='A silent bone-thinning disease that makes fractures much mor'
+  - TEXT_BOX (17)  L=7.20in  T=5.00in  W=5.50in  H=1.90in  text='Women over 50 carry roughly 4.5x the diagnosed osteoporosis '
   - TEXT_BOX (17)  L=0.50in  T=7.05in  W=11.40in  H=0.35in  text='[2] Sarafrazi N, Wambogo EA, Shepherd JA. Osteoporosis or Lo'
   - TEXT_BOX (17)  L=12.50in  T=7.05in  W=0.60in  H=0.30in  text='5 / 10'
 
 ## Slide 6
-  - AUTO_SHAPE (1)  L=0.90in  T=0.55in  W=2.00in  H=0.40in  text='NEUROLOGICAL'
-  - TEXT_BOX (17)  L=0.90in  T=1.15in  W=11.50in  H=0.35in  text='female-to-male ratio'
-  - TEXT_BOX (17)  L=0.90in  T=1.60in  W=11.50in  H=2.00in  text='3:1'
-  - TEXT_BOX (17)  L=0.90in  T=4.40in  W=11.50in  H=0.90in  text='Migraine'
-  - TEXT_BOX (17)  L=0.90in  T=5.30in  W=11.50in  H=0.90in  text='More than a bad headache — recurring, often disabling neurol'
-  - TEXT_BOX (17)  L=0.90in  T=6.30in  W=11.50in  H=0.60in  text='Migraine is the leading cause of disability for women under '
+  - AUTO_SHAPE (1)  L=0.90in  T=0.55in  W=2.40in  H=0.40in  text='NEUROLOGICAL'
+  - TEXT_BOX (17)  L=0.90in  T=1.15in  W=11.50in  H=0.90in  text='Migraine'
+  - TEXT_BOX (17)  L=0.90in  T=2.40in  W=6.00in  H=0.45in  text='female-to-male ratio'
+  - TEXT_BOX (17)  L=0.90in  T=2.85in  W=6.00in  H=2.00in  text='3:1'
+  - TEXT_BOX (17)  L=7.20in  T=2.40in  W=5.50in  H=2.40in  text='More than a bad headache — recurring, often disabling neurol'
+  - TEXT_BOX (17)  L=7.20in  T=5.00in  W=5.50in  H=1.90in  text='Migraine is the leading cause of disability for women under '
   - TEXT_BOX (17)  L=0.50in  T=7.05in  W=11.40in  H=0.35in  text='[3] Buse DC et al. Sex differences in the prevalence, sympto'
   - TEXT_BOX (17)  L=12.50in  T=7.05in  W=0.60in  H=0.30in  text='6 / 10'
 
 ## Slide 7
   - AUTO_SHAPE (1)  L=0.90in  T=0.55in  W=2.40in  H=0.40in  text='NEURODEGENERATIVE'
-  - TEXT_BOX (17)  L=0.90in  T=1.30in  W=6.20in  H=1.10in  text="Alzheimer's Disease"
-  - TEXT_BOX (17)  L=0.90in  T=2.60in  W=6.20in  H=2.50in  text='A progressive brain disease that destroys memory and thinkin'
-  - TEXT_BOX (17)  L=0.90in  T=5.30in  W=6.20in  H=1.50in  text="By age 45, a woman's lifetime risk of Alzheimer's is 1 in 5 "
-  - AUTO_SHAPE (1)  L=7.60in  T=1.30in  W=5.10in  H=5.40in  text=''
-  - TEXT_BOX (17)  L=7.60in  T=1.70in  W=5.10in  H=0.50in  text='LIFETIME RISK GAP'
-  - TEXT_BOX (17)  L=7.60in  T=2.30in  W=5.10in  H=2.00in  text='2:1'
-  - TEXT_BOX (17)  L=7.60in  T=4.50in  W=5.10in  H=0.60in  text='female : male'
-  - TEXT_BOX (17)  L=7.60in  T=5.20in  W=5.10in  H=1.40in  text="1 in 5 women  vs  1 in 10 men carry a lifetime Alzheimer's r"
+  - TEXT_BOX (17)  L=0.90in  T=1.15in  W=11.50in  H=0.90in  text="Alzheimer's Disease"
+  - TEXT_BOX (17)  L=0.90in  T=2.40in  W=6.00in  H=0.45in  text='female-to-male ratio'
+  - TEXT_BOX (17)  L=0.90in  T=2.85in  W=6.00in  H=2.00in  text='2:1'
+  - TEXT_BOX (17)  L=7.20in  T=2.40in  W=5.50in  H=2.40in  text='A progressive brain disease that destroys memory and thinkin'
+  - TEXT_BOX (17)  L=7.20in  T=5.00in  W=5.50in  H=1.90in  text="By age 45, a woman's lifetime risk of Alzheimer's is 1 in 5 "
   - TEXT_BOX (17)  L=0.50in  T=7.05in  W=11.40in  H=0.35in  text="[4] Alzheimer's disease as a women's health challenge (PMC, "
   - TEXT_BOX (17)  L=12.50in  T=7.05in  W=0.60in  H=0.30in  text='7 / 10'
 
 ## Slide 8
-  - AUTO_SHAPE (1)  L=0.90in  T=0.55in  W=2.00in  H=0.40in  text='MENTAL HEALTH'
-  - TEXT_BOX (17)  L=0.90in  T=2.00in  W=6.00in  H=0.50in  text='female-to-male ratio'
-  - TEXT_BOX (17)  L=0.90in  T=2.50in  W=6.00in  H=2.00in  text='2:1'
-  - TEXT_BOX (17)  L=7.20in  T=1.30in  W=5.50in  H=1.10in  text='Major Depression'
-  - TEXT_BOX (17)  L=7.20in  T=2.60in  W=5.50in  H=1.80in  text='A persistent mood disorder that affects how a person feels, '
-  - TEXT_BOX (17)  L=7.20in  T=4.80in  W=5.50in  H=1.80in  text='Twice as many women as men live with depression — in nearly '
+  - AUTO_SHAPE (1)  L=0.90in  T=0.55in  W=2.40in  H=0.40in  text='MENTAL HEALTH'
+  - TEXT_BOX (17)  L=0.90in  T=1.15in  W=11.50in  H=0.90in  text='Major Depression'
+  - TEXT_BOX (17)  L=0.90in  T=2.40in  W=6.00in  H=0.45in  text='female-to-male ratio'
+  - TEXT_BOX (17)  L=0.90in  T=2.85in  W=6.00in  H=2.00in  text='2:1'
+  - TEXT_BOX (17)  L=7.20in  T=2.40in  W=5.50in  H=2.40in  text='A persistent mood disorder that affects how a person feels, '
+  - TEXT_BOX (17)  L=7.20in  T=5.00in  W=5.50in  H=1.90in  text='Twice as many women as men live with depression — in nearly '
   - TEXT_BOX (17)  L=0.50in  T=7.05in  W=11.40in  H=0.35in  text='[5] Albert PR. Why is depression more prevalent in women? Jo'
   - TEXT_BOX (17)  L=12.50in  T=7.05in  W=0.60in  H=0.30in  text='8 / 10'
 

@@ -112,6 +112,14 @@ def _add_pill(slide, left, top, width, height, text, fill=SURFACE, font_color=PR
     return shape
 
 
+def _remove_gridlines(axis):
+    """Strip major + minor gridlines from a chart axis."""
+    el = axis._element
+    for tag in ("c:majorGridlines", "c:minorGridlines"):
+        for child in el.findall(f"{{http://schemas.openxmlformats.org/drawingml/2006/chart}}{tag.split(':')[1]}"):
+            el.remove(child)
+
+
 def _add_card(slide, left, top, width, height, fill=SURFACE):
     shape = slide.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, left, top, width, height)
     shape.adjustments[0] = 0.06
@@ -151,59 +159,37 @@ def _add_slide_number(slide, n, total):
 
 def build_title_slide(prs):
     slide = prs.slides.add_slide(prs.slide_layouts[6])
-    _set_background(slide, BG)
+    _set_background(slide, PRIMARY)
     _add_text(
         slide,
         Inches(0.9),
-        Inches(0.7),
+        Inches(1.6),
         Inches(11.5),
-        Inches(0.4),
-        "A 3-MINUTE STORY",
-        font_size=14,
-        bold=True,
-        color=SECONDARY,
-    )
-    _add_text(
-        slide,
-        Inches(0.9),
-        Inches(1.4),
-        Inches(11.5),
-        Inches(1.8),
+        Inches(2.0),
         "Diabetes was the question.\nThe answer is much bigger than diabetes.",
         font_size=44,
         bold=True,
-        color=PRIMARY,
+        color=WHITE,
     )
     _add_text(
         slide,
         Inches(0.9),
-        Inches(3.9),
-        Inches(0.6),
-        Inches(0.4),
-        "Big Idea",
-        font_size=11,
-        bold=True,
-        color=ACCENT,
-    )
-    _add_text(
-        slide,
-        Inches(0.9),
-        Inches(4.35),
+        Inches(4.3),
         Inches(11.5),
-        Inches(2.2),
+        Inches(2.4),
         BIG_IDEA,
         font_size=20,
-        color=TEXT,
+        color=WHITE,
     )
     _add_text(
         slide,
         Inches(0.9),
-        Inches(6.8),
+        Inches(6.85),
         Inches(11.5),
         Inches(0.4),
         "Female disease prevalence  ·  Five conditions, one pattern",
         font_size=11,
-        color=MUTED,
+        color=ACCENT,
     )
     return slide
 
@@ -214,18 +200,7 @@ def build_hook_slide(prs, hook):
     _add_text(
         slide,
         Inches(0.9),
-        Inches(0.7),
-        Inches(11.5),
-        Inches(0.4),
-        "THE HOOK  ·  Diabesity Zambia",
-        font_size=12,
-        bold=True,
-        color=SECONDARY,
-    )
-    _add_text(
-        slide,
-        Inches(0.9),
-        Inches(1.45),
+        Inches(1.15),
         Inches(11.5),
         Inches(0.55),
         "Zambia's 2017 STEPS survey",
@@ -265,25 +240,15 @@ def build_hook_slide(prs, hook):
 def build_landscape_slide(prs, diseases):
     slide = prs.slides.add_slide(prs.slide_layouts[6])
     _set_background(slide)
+    # Title — same position/size/color as disease slide titles
     _add_text(
         slide,
         Inches(0.9),
-        Inches(0.55),
+        Inches(1.15),
         Inches(11.5),
-        Inches(0.4),
-        "THE LANDSCAPE",
-        font_size=12,
-        bold=True,
-        color=SECONDARY,
-    )
-    _add_text(
-        slide,
         Inches(0.9),
-        Inches(1.0),
-        Inches(11.5),
-        Inches(0.7),
         "Female-to-male prevalence ratio, five conditions",
-        font_size=26,
+        font_size=28,
         bold=True,
         color=PRIMARY,
     )
@@ -296,12 +261,13 @@ def build_landscape_slide(prs, diseases):
     chart_data.categories = categories
     chart_data.add_series("Female-to-male ratio", ratios)
 
+    # Body starts at the same Y as disease-slide body content (T=2.4in)
     chart = slide.shapes.add_chart(
         XL_CHART_TYPE.BAR_CLUSTERED,
         Inches(0.9),
-        Inches(1.95),
+        Inches(2.4),
         Inches(11.5),
-        Inches(4.9),
+        Inches(4.4),
         chart_data,
     ).chart
 
@@ -327,6 +293,10 @@ def build_landscape_slide(prs, diseases):
     cat_axis.tick_labels.font.size = Pt(14)
     cat_axis.tick_labels.font.name = FONT
     cat_axis.tick_labels.font.color.rgb = TEXT
+    cat_axis.major_tick_mark = XL_TICK_MARK.NONE
+    cat_axis.minor_tick_mark = XL_TICK_MARK.NONE
+    # Remove category-axis gridlines
+    _remove_gridlines(cat_axis)
 
     val_axis = chart.value_axis
     val_axis.visible = False
@@ -335,17 +305,13 @@ def build_landscape_slide(prs, diseases):
     val_axis.tick_labels.font.size = Pt(1)
     val_axis.maximum_scale = 10.0
     val_axis.minimum_scale = 0.0
+    # Remove value-axis gridlines
+    _remove_gridlines(val_axis)
 
-    _add_text(
+    # Caption sits at the same footnote Y as the rest of slides 3-8
+    _add_footnote(
         slide,
-        Inches(0.9),
-        Inches(6.85),
-        Inches(11.5),
-        Inches(0.3),
         "Each bar = how many times more common the condition is in women than men.",
-        font_size=11,
-        color=MUTED,
-        align=PP_ALIGN.LEFT,
     )
     return slide
 
@@ -365,82 +331,45 @@ def _add_stat_callout(slide, left, top, width, text, font_size=110, color=ACCENT
     )
 
 
-def build_disease_slide_layout_a_center_hero(prs, d, n, total):
-    """Layout A — large stat centered, name above, so-what below. (Lupus)"""
+def build_disease_slide(prs, d, n, total):
+    """Single consistent layout used for every disease slide.
+
+    Geometry (shared with slide 3, the landscape slide, on title + footnote Y):
+      - Category pill: L=0.9in T=0.55in (W varies by label length, H=0.4in)
+      - Disease title: L=0.9in T=1.15in  W=11.5in  H=0.9in   28pt bold PRIMARY
+      - Left column (stat):
+          - Eyebrow "female-to-male ratio" at T=2.4in
+          - Stat callout at T=2.85in, 160pt gold
+      - Right column (story):
+          - Description at T=2.4in, 16pt TEXT
+          - So-what at T=5.0in, 22pt bold PRIMARY
+      - Footnote at L=0.5in T=7.05in (same as all other slides)
+      - Slide number at L=12.5in T=7.05in
+    """
     slide = prs.slides.add_slide(prs.slide_layouts[6])
     _set_background(slide)
-    _add_pill(slide, Inches(0.9), Inches(0.55), Inches(1.8), Inches(0.4), d["category"].upper())
+
+    # Header — category pill + disease title
+    _add_pill(slide, Inches(0.9), Inches(0.55), Inches(2.4), Inches(0.4), d["category"].upper())
     _add_text(
         slide,
         Inches(0.9),
         Inches(1.15),
         Inches(11.5),
-        Inches(0.8),
+        Inches(0.9),
         d["name"],
-        font_size=34,
+        font_size=28,
         bold=True,
         color=PRIMARY,
     )
-    _add_text(
-        slide,
-        Inches(0.9),
-        Inches(2.0),
-        Inches(11.5),
-        Inches(0.7),
-        d["description"],
-        font_size=16,
-        color=TEXT,
-    )
-    _add_stat_callout(
-        slide,
-        Inches(0.9),
-        Inches(3.2),
-        Inches(11.5),
-        d["ratio_label"],
-        font_size=160,
-        align=PP_ALIGN.CENTER,
-    )
-    _add_text(
-        slide,
-        Inches(0.9),
-        Inches(5.6),
-        Inches(11.5),
-        Inches(0.6),
-        "female-to-male prevalence",
-        font_size=14,
-        color=SECONDARY,
-        align=PP_ALIGN.CENTER,
-    )
-    _add_text(
-        slide,
-        Inches(0.9),
-        Inches(6.2),
-        Inches(11.5),
-        Inches(0.6),
-        d["so_what"],
-        font_size=20,
-        bold=True,
-        color=PRIMARY,
-        align=PP_ALIGN.CENTER,
-    )
-    _add_footnote(slide, f"[{d['id']}] {d['citation']}  ·  {d['source_url']}")
-    _add_slide_number(slide, n, total)
-    return slide
-
-
-def build_disease_slide_layout_b_two_column(prs, d, n, total):
-    """Layout B — stat hero on the left, story column on the right."""
-    slide = prs.slides.add_slide(prs.slide_layouts[6])
-    _set_background(slide)
-    _add_pill(slide, Inches(0.9), Inches(0.55), Inches(2.0), Inches(0.4), d["category"].upper())
 
     # Left column — stat
     _add_text(
         slide,
         Inches(0.9),
-        Inches(2.0),
+        Inches(2.4),
         Inches(6.0),
-        Inches(0.5),
+        Inches(0.45),
         "female-to-male ratio",
         font_size=14,
         color=SECONDARY,
@@ -448,10 +377,10 @@ def build_disease_slide_layout_b_two_column(prs, d, n, total):
     _add_stat_callout(
         slide,
         Inches(0.9),
-        Inches(2.5),
+        Inches(2.85),
         Inches(6.0),
         d["ratio_label"],
-        font_size=170,
+        font_size=160,
         align=PP_ALIGN.LEFT,
     )
 
@@ -459,20 +388,9 @@ def build_disease_slide_layout_b_two_column(prs, d, n, total):
     _add_text(
         slide,
         Inches(7.2),
-        Inches(1.3),
+        Inches(2.4),
         Inches(5.5),
-        Inches(1.1),
-        d["name"],
-        font_size=30,
-        bold=True,
-        color=PRIMARY,
-    )
-    _add_text(
-        slide,
-        Inches(7.2),
-        Inches(2.6),
-        Inches(5.5),
-        Inches(1.8),
+        Inches(2.4),
         d["description"],
         font_size=16,
         color=TEXT,
@@ -480,168 +398,15 @@ def build_disease_slide_layout_b_two_column(prs, d, n, total):
     _add_text(
         slide,
         Inches(7.2),
-        Inches(4.8),
+        Inches(5.0),
         Inches(5.5),
-        Inches(1.8),
+        Inches(1.9),
         d["so_what"],
         font_size=22,
         bold=True,
         color=PRIMARY,
     )
-    _add_footnote(slide, f"[{d['id']}] {d['citation']}  ·  {d['source_url']}")
-    _add_slide_number(slide, n, total)
-    return slide
 
-
-def build_disease_slide_layout_c_card_right(prs, d, n, total):
-    """Layout C — story on the left, lavender card with stat on the right."""
-    slide = prs.slides.add_slide(prs.slide_layouts[6])
-    _set_background(slide)
-    _add_pill(slide, Inches(0.9), Inches(0.55), Inches(2.4), Inches(0.4), d["category"].upper())
-
-    # Left — description
-    _add_text(
-        slide,
-        Inches(0.9),
-        Inches(1.3),
-        Inches(6.2),
-        Inches(1.1),
-        d["name"],
-        font_size=30,
-        bold=True,
-        color=PRIMARY,
-    )
-    _add_text(
-        slide,
-        Inches(0.9),
-        Inches(2.6),
-        Inches(6.2),
-        Inches(2.5),
-        d["description"],
-        font_size=16,
-        color=TEXT,
-    )
-    _add_text(
-        slide,
-        Inches(0.9),
-        Inches(5.3),
-        Inches(6.2),
-        Inches(1.5),
-        d["so_what"],
-        font_size=20,
-        bold=True,
-        color=PRIMARY,
-    )
-
-    # Right — card with stat
-    _add_card(slide, Inches(7.6), Inches(1.3), Inches(5.1), Inches(5.4), fill=SURFACE)
-    _add_text(
-        slide,
-        Inches(7.6),
-        Inches(1.7),
-        Inches(5.1),
-        Inches(0.5),
-        "LIFETIME RISK GAP",
-        font_size=12,
-        bold=True,
-        color=SECONDARY,
-        align=PP_ALIGN.CENTER,
-    )
-    _add_stat_callout(
-        slide,
-        Inches(7.6),
-        Inches(2.3),
-        Inches(5.1),
-        d["ratio_label"],
-        font_size=130,
-        align=PP_ALIGN.CENTER,
-    )
-    _add_text(
-        slide,
-        Inches(7.6),
-        Inches(4.5),
-        Inches(5.1),
-        Inches(0.6),
-        "female : male",
-        font_size=16,
-        color=SECONDARY,
-        align=PP_ALIGN.CENTER,
-    )
-    _add_text(
-        slide,
-        Inches(7.6),
-        Inches(5.2),
-        Inches(5.1),
-        Inches(1.4),
-        "1 in 5 women  vs  1 in 10 men carry a lifetime Alzheimer's risk from age 45.",
-        font_size=14,
-        color=TEXT,
-        align=PP_ALIGN.CENTER,
-    )
-    _add_footnote(slide, f"[{d['id']}] {d['citation']}  ·  {d['source_url']}")
-    _add_slide_number(slide, n, total)
-    return slide
-
-
-def build_disease_slide_layout_d_top_stat(prs, d, n, total):
-    """Layout D — stat at the top, name + story stacked below."""
-    slide = prs.slides.add_slide(prs.slide_layouts[6])
-    _set_background(slide)
-    _add_pill(slide, Inches(0.9), Inches(0.55), Inches(2.0), Inches(0.4), d["category"].upper())
-
-    _add_text(
-        slide,
-        Inches(0.9),
-        Inches(1.15),
-        Inches(11.5),
-        Inches(0.35),
-        "female-to-male ratio",
-        font_size=14,
-        color=SECONDARY,
-        align=PP_ALIGN.LEFT,
-    )
-    _add_stat_callout(
-        slide,
-        Inches(0.9),
-        Inches(1.6),
-        Inches(11.5),
-        d["ratio_label"],
-        font_size=170,
-        align=PP_ALIGN.LEFT,
-    )
-
-    _add_text(
-        slide,
-        Inches(0.9),
-        Inches(4.4),
-        Inches(11.5),
-        Inches(0.9),
-        d["name"],
-        font_size=30,
-        bold=True,
-        color=PRIMARY,
-    )
-    _add_text(
-        slide,
-        Inches(0.9),
-        Inches(5.3),
-        Inches(11.5),
-        Inches(0.9),
-        d["description"],
-        font_size=16,
-        color=TEXT,
-    )
-    _add_text(
-        slide,
-        Inches(0.9),
-        Inches(6.3),
-        Inches(11.5),
-        Inches(0.6),
-        d["so_what"],
-        font_size=18,
-        bold=True,
-        color=PRIMARY,
-    )
     _add_footnote(slide, f"[{d['id']}] {d['citation']}  ·  {d['source_url']}")
     _add_slide_number(slide, n, total)
     return slide
@@ -771,15 +536,6 @@ def main():
     prs.slide_width = SLIDE_W
     prs.slide_height = SLIDE_H
 
-    # Map id -> layout function. Vary across the 5 disease slides (≥3 layouts).
-    layout_for_id = {
-        1: build_disease_slide_layout_a_center_hero,   # Lupus
-        2: build_disease_slide_layout_b_two_column,    # Osteoporosis
-        3: build_disease_slide_layout_d_top_stat,      # Migraine
-        4: build_disease_slide_layout_c_card_right,    # Alzheimer's
-        5: build_disease_slide_layout_b_two_column,    # Depression
-    }
-
     total_slides = 10
 
     build_title_slide(prs)
@@ -787,7 +543,7 @@ def main():
     build_landscape_slide(prs, diseases)
     n = 4
     for d in diseases:
-        layout_for_id[d["id"]](prs, d, n, total_slides)
+        build_disease_slide(prs, d, n, total_slides)
         n += 1
     build_so_what_slide(prs)
     build_sources_slide(prs, diseases, hook)
