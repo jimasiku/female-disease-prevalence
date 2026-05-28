@@ -20,7 +20,7 @@ from pptx import Presentation
 from pptx.util import Emu
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-PPTX_PATH = REPO_ROOT / "output" / "FemaleDiseasPrevalence.pptx"
+PPTX_PATH = REPO_ROOT / "output" / "FemaleDiseasePrevalence.pptx"
 
 
 def emu_to_in(v):

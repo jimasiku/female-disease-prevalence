@@ -26,7 +26,7 @@ from pptx.util import Emu, Inches, Pt
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 DATA_PATH = REPO_ROOT / "data" / "disease_research.json"
-OUTPUT_PATH = REPO_ROOT / "output" / "FemaleDiseasPrevalence.pptx"
+OUTPUT_PATH = REPO_ROOT / "output" / "FemaleDiseasePrevalence.pptx"
 
 PRIMARY = RGBColor(0x3D, 0x2B, 0x56)      # deep plum
 SECONDARY = RGBColor(0x7B, 0x5E, 0xA7)    # soft violet (Female bars)
@@ -36,6 +36,17 @@ TEXT = RGBColor(0x2C, 0x2C, 0x2C)         # near-black body text
 MUTED = RGBColor(0x88, 0x88, 0x88)        # footnotes
 BG = RGBColor(0xFF, 0xF8, 0xF5)           # very light warm background
 WHITE = RGBColor(0xFF, 0xFF, 0xFF)
+
+# Disease-slide palette (v3 redesign — matches the HTML mockup)
+DS_PILL_FILL = RGBColor(0xEE, 0xED, 0xFE)   # light violet pill background
+DS_PILL_TEXT = RGBColor(0x53, 0x4A, 0xB7)   # violet pill text
+DS_DESC = RGBColor(0x6B, 0x6B, 0x6B)        # grey description copy
+DS_CARD_FILL = RGBColor(0xFA, 0xEE, 0xDA)   # warm gold stat card
+DS_CARD_LABEL = RGBColor(0x63, 0x38, 0x06)  # dark brown label inside card
+DS_CARD_STAT = RGBColor(0xBA, 0x75, 0x17)   # rich gold for the stat number
+DS_CARD_SUB = RGBColor(0x85, 0x4F, 0x0B)    # mid-brown sub-label inside card
+DS_DIVIDER = RGBColor(0xE0, 0xD8, 0xF0)     # pale violet divider line
+DS_FOOTNOTE = RGBColor(0xAA, 0xAA, 0xAA)    # light grey footnote text
 
 FONT = "Calibri"
 SLIDE_W = Inches(13.333)
@@ -110,6 +121,42 @@ def _add_pill(slide, left, top, width, height, text, fill=SURFACE, font_color=PR
     run.font.bold = True
     run.font.color.rgb = font_color
     return shape
+
+
+def _apply_outer_shadow(shape, *, blur_pt=6, dist_pt=2, angle_deg=135, opacity=0.07):
+    """Attach a soft outer-shadow effect to a shape (OOXML-level)."""
+    from lxml import etree
+
+    nsmap = {"a": "http://schemas.openxmlformats.org/drawingml/2006/main"}
+    sp_pr = shape._element.find(".//a:spPr", nsmap)
+    if sp_pr is None:
+        return
+    # Drop any pre-existing effectLst
+    for existing in sp_pr.findall("a:effectLst", nsmap):
+        sp_pr.remove(existing)
+    blur_emu = int(blur_pt * 12700)
+    dist_emu = int(dist_pt * 12700)
+    direction = int(angle_deg * 60000)
+    alpha = int(opacity * 100000)
+    xml = (
+        f'<a:effectLst xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main">'
+        f'<a:outerShdw blurRad="{blur_emu}" dist="{dist_emu}" dir="{direction}" '
+        f'rotWithShape="0">'
+        f'<a:srgbClr val="000000"><a:alpha val="{alpha}"/></a:srgbClr>'
+        f'</a:outerShdw>'
+        f'</a:effectLst>'
+    )
+    sp_pr.append(etree.fromstring(xml))
+
+
+def _add_divider(slide, x_in, y_in, w_in, color=DS_DIVIDER, weight_pt=0.5):
+    """Thin horizontal divider line."""
+    from pptx.util import Pt as _Pt
+
+    line = slide.shapes.add_connector(1, Inches(x_in), Inches(y_in), Inches(x_in + w_in), Inches(y_in))
+    line.line.color.rgb = color
+    line.line.width = _Pt(weight_pt)
+    return line
 
 
 def _remove_gridlines(axis):
@@ -332,83 +379,141 @@ def _add_stat_callout(slide, left, top, width, text, font_size=110, color=ACCENT
 
 
 def build_disease_slide(prs, d, n, total):
-    """Single consistent layout used for every disease slide.
+    """Disease-slide layout v3 — matches the HTML mockup.
 
-    Geometry (shared with slide 3, the landscape slide, on title + footnote Y):
-      - Category pill: L=0.9in T=0.55in (W varies by label length, H=0.4in)
-      - Disease title: L=0.9in T=1.15in  W=11.5in  H=0.9in   28pt bold PRIMARY
-      - Left column (stat):
-          - Eyebrow "female-to-male ratio" at T=2.4in
-          - Stat callout at T=2.85in, 160pt gold
-      - Right column (story):
-          - Description at T=2.4in, 16pt TEXT
-          - So-what at T=5.0in, 22pt bold PRIMARY
-      - Footnote at L=0.5in T=7.05in (same as all other slides)
-      - Slide number at L=12.5in T=7.05in
+    Strictly identical x/y/w/h for every disease slide (4-8). No per-slide
+    adjustments. The 3-card grid from the mockup is intentionally omitted.
+
+    Geometry (inches):
+      LEFT COLUMN (x=0.5, w=5.5)
+        - Pill         L=0.5  T=0.55  W=1.6  H=0.28   fill #EEEDFE  text #534AB7
+        - Disease name L=0.5  T=1.00  W=5.5  H=0.5    22pt  #3D2B56
+        - Description  L=0.5  T=1.55  W=5.2  H=0.95   13pt  #6B6B6B
+      RIGHT COLUMN — gold stat card
+        - Card         L=6.3  T=0.45  W=3.2  H=1.9    fill #FAEEDA  shadow outer
+        - Card label   centered  T=0.60  H=0.25       9pt  #633806  uppercase
+        - Stat number  centered  T=0.85  H=0.80      52pt  #BA7517  bold
+        - Sub-label    centered  T=1.65  H=0.60      11pt  #854F0B
+      DIVIDER          y=2.55, full width 9.0in starting at x=0.5, #E0D8F0, 0.5pt
+      FOOTNOTE         L=0.5  T=5.15  W=9.0  H=0.35   9pt  #AAAAAA
     """
     slide = prs.slides.add_slide(prs.slide_layouts[6])
     _set_background(slide)
 
-    # Header — category pill + disease title
-    _add_pill(slide, Inches(0.9), Inches(0.55), Inches(2.4), Inches(0.4), d["category"].upper())
+    # === LEFT COLUMN ===
+
+    # Category pill
+    _add_pill(
+        slide,
+        Inches(0.5),
+        Inches(0.55),
+        Inches(1.6),
+        Inches(0.28),
+        d["category"].upper(),
+        fill=DS_PILL_FILL,
+        font_color=DS_PILL_TEXT,
+        font_size=9,
+    )
+
+    # Disease name (22pt, deep plum, not bold per spec)
     _add_text(
         slide,
-        Inches(0.9),
-        Inches(1.15),
-        Inches(11.5),
-        Inches(0.9),
+        Inches(0.5),
+        Inches(1.0),
+        Inches(5.5),
+        Inches(0.5),
         d["name"],
-        font_size=28,
-        bold=True,
-        color=PRIMARY,
-    )
-
-    # Left column — stat
-    _add_text(
-        slide,
-        Inches(0.9),
-        Inches(2.4),
-        Inches(6.0),
-        Inches(0.45),
-        "female-to-male ratio",
-        font_size=14,
-        color=SECONDARY,
-    )
-    _add_stat_callout(
-        slide,
-        Inches(0.9),
-        Inches(2.85),
-        Inches(6.0),
-        d["ratio_label"],
-        font_size=160,
-        align=PP_ALIGN.LEFT,
-    )
-
-    # Right column — story
-    _add_text(
-        slide,
-        Inches(7.2),
-        Inches(2.4),
-        Inches(5.5),
-        Inches(2.4),
-        d["description"],
-        font_size=16,
-        color=TEXT,
-    )
-    _add_text(
-        slide,
-        Inches(7.2),
-        Inches(5.0),
-        Inches(5.5),
-        Inches(1.9),
-        d["so_what"],
         font_size=22,
-        bold=True,
         color=PRIMARY,
     )
 
-    _add_footnote(slide, f"[{d['id']}] {d['citation']}  ·  {d['source_url']}")
-    _add_slide_number(slide, n, total)
+    # One-sentence description (13pt, mid-grey)
+    _add_text(
+        slide,
+        Inches(0.5),
+        Inches(1.55),
+        Inches(5.2),
+        Inches(0.95),
+        d["description"],
+        font_size=13,
+        color=DS_DESC,
+    )
+
+    # === RIGHT COLUMN — gold stat card ===
+
+    card = slide.shapes.add_shape(
+        MSO_SHAPE.ROUNDED_RECTANGLE,
+        Inches(6.3),
+        Inches(0.45),
+        Inches(3.2),
+        Inches(1.9),
+    )
+    card.adjustments[0] = 0.06
+    card.fill.solid()
+    card.fill.fore_color.rgb = DS_CARD_FILL
+    card.line.fill.background()
+    _apply_outer_shadow(card, blur_pt=6, dist_pt=2, angle_deg=135, opacity=0.07)
+
+    # Card label (uppercase, small)
+    _add_text(
+        slide,
+        Inches(6.3),
+        Inches(0.6),
+        Inches(3.2),
+        Inches(0.25),
+        "FEMALE-TO-MALE RATIO",
+        font_size=9,
+        bold=True,
+        color=DS_CARD_LABEL,
+        align=PP_ALIGN.CENTER,
+    )
+
+    # Big stat number (52pt)
+    _add_text(
+        slide,
+        Inches(6.3),
+        Inches(0.85),
+        Inches(3.2),
+        Inches(0.8),
+        d["ratio_label"],
+        font_size=52,
+        bold=True,
+        color=DS_CARD_STAT,
+        align=PP_ALIGN.CENTER,
+    )
+
+    # Sub-label inside the card — uses the `so_what` sentence from the data
+    _add_text(
+        slide,
+        Inches(6.3),
+        Inches(1.65),
+        Inches(3.2),
+        Inches(0.6),
+        d["so_what"],
+        font_size=11,
+        color=DS_CARD_SUB,
+        align=PP_ALIGN.CENTER,
+    )
+
+    # === DIVIDER LINE ===
+    _add_divider(slide, x_in=0.5, y_in=2.55, w_in=9.0, color=DS_DIVIDER, weight_pt=0.5)
+
+    # === FOOTNOTE ===
+    box = slide.shapes.add_textbox(Inches(0.5), Inches(5.15), Inches(9.0), Inches(0.4))
+    tf = box.text_frame
+    tf.word_wrap = True
+    tf.margin_left = Emu(0)
+    tf.margin_right = Emu(0)
+    tf.margin_top = Emu(0)
+    tf.margin_bottom = Emu(0)
+    p = tf.paragraphs[0]
+    p.alignment = PP_ALIGN.LEFT
+    run = p.add_run()
+    run.text = f"[{d['id']}] {d['citation']} · {d['source_url']}"
+    run.font.name = FONT
+    run.font.size = Pt(9)
+    run.font.color.rgb = DS_FOOTNOTE
+
     return slide
 
 
@@ -541,10 +646,8 @@ def main():
     build_title_slide(prs)
     build_hook_slide(prs, hook)
     build_landscape_slide(prs, diseases)
-    n = 4
     for d in diseases:
-        build_disease_slide(prs, d, n, total_slides)
-        n += 1
+        build_disease_slide(prs, d, 0, total_slides)
     build_so_what_slide(prs)
     build_sources_slide(prs, diseases, hook)
 
