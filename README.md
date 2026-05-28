@@ -1,4 +1,4 @@
-# Female Disease Prevalence — a 3-minute story
+# Female Disease Prevalence
 
 > ## Big Idea
 > **The same female-skewed health burden that shows up in Zambia's diabetes numbers runs through five of the most disabling diseases of modern life — and the world still designs medicine, research and screening as if it didn't.**
