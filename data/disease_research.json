@@ -1,0 +1,74 @@
+{
+  "diseases": [
+    {
+      "id": 1,
+      "name": "Systemic Lupus Erythematosus (Lupus)",
+      "category": "Autoimmune",
+      "description": "A chronic autoimmune disease where the body's immune system attacks its own tissues — skin, joints, kidneys, heart and brain.",
+      "female_to_male_ratio": 9.0,
+      "ratio_label": "9:1",
+      "so_what": "Nine out of every ten people living with lupus are women.",
+      "citation": "Sex- and gender-related differences in systemic lupus erythematosus: a scoping review (PMC, 2024)",
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12204902/",
+      "publisher": "National Library of Medicine (PubMed Central)",
+      "year": 2024
+    },
+    {
+      "id": 2,
+      "name": "Osteoporosis",
+      "category": "Musculoskeletal",
+      "description": "A silent bone-thinning disease that makes fractures much more likely after age 50 — often discovered only after a broken hip or wrist.",
+      "female_to_male_ratio": 4.5,
+      "ratio_label": "4.5:1",
+      "so_what": "Women over 50 carry roughly 4.5x the diagnosed osteoporosis risk of men.",
+      "citation": "Sarafrazi N, Wambogo EA, Shepherd JA. Osteoporosis or Low Bone Mass in Older Adults, United States, 2017-2018. CDC NCHS Data Brief No. 405, 2021",
+      "source_url": "https://www.cdc.gov/nchs/products/databriefs/db405.htm",
+      "publisher": "CDC National Center for Health Statistics",
+      "year": 2021
+    },
+    {
+      "id": 3,
+      "name": "Migraine",
+      "category": "Neurological",
+      "description": "More than a bad headache — recurring, often disabling neurological attacks with nausea, light and sound sensitivity that can last for days.",
+      "female_to_male_ratio": 3.0,
+      "ratio_label": "3:1",
+      "so_what": "Migraine is the leading cause of disability for women under 50 worldwide.",
+      "citation": "Buse DC et al. Sex differences in the prevalence, symptoms, and associated features of migraine — AMPP Study. PubMed, 2013",
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/23808666/",
+      "publisher": "PubMed / American Migraine Prevalence and Prevention Study",
+      "year": 2013
+    },
+    {
+      "id": 4,
+      "name": "Alzheimer's Disease",
+      "category": "Neurodegenerative",
+      "description": "A progressive brain disease that destroys memory and thinking — the most common cause of dementia in older adults.",
+      "female_to_male_ratio": 2.0,
+      "ratio_label": "2:1",
+      "so_what": "By age 45, a woman's lifetime risk of Alzheimer's is 1 in 5 — twice a man's.",
+      "citation": "Alzheimer's disease as a women's health challenge (PMC, 2024)",
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11106001/",
+      "publisher": "National Library of Medicine (PubMed Central)",
+      "year": 2024
+    },
+    {
+      "id": 5,
+      "name": "Major Depression",
+      "category": "Mental Health",
+      "description": "A persistent mood disorder that affects how a person feels, thinks and handles daily life — far more than just sadness.",
+      "female_to_male_ratio": 2.0,
+      "ratio_label": "2:1",
+      "so_what": "Twice as many women as men live with depression — in nearly every country measured.",
+      "citation": "Albert PR. Why is depression more prevalent in women? Journal of Psychiatry & Neuroscience. PMC, 2015",
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4478054/",
+      "publisher": "Journal of Psychiatry & Neuroscience (PubMed Central)",
+      "year": 2015
+    }
+  ],
+  "hook_anchor": {
+    "claim": "In Zambia's 2017 STEPS survey, women were 24% more likely than men to carry multiple non-communicable disease risk factors — and Zambian sub-studies put female diabetes prevalence at 3.0% vs 2.1% in men.",
+    "source_url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7864270/",
+    "citation": "Pengpid S, Peltzer K. Prevalence and correlates of multiple non-communicable disease risk factors among adults in Zambia: results of the first national STEPS survey in 2017. PMC, 2021"
+  }
+}
