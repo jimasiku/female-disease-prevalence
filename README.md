@@ -30,7 +30,7 @@ pip install python-pptx
 python scripts/build_presentation.py
 ```
 
-The script reads [`data/disease_research.json`](data/disease_research.json) and writes [`output/FemaleDiseasPrevalence.pptx`](output/FemaleDiseasPrevalence.pptx).
+The script reads [`data/disease_research.json`](data/disease_research.json) and writes [`output/FemaleDiseasePrevalence.pptx`](output/FemaleDiseasePrevalence.pptx).
 
 To re-run the layout QA pass:
 
@@ -60,7 +60,7 @@ female-disease-prevalence/
 │   ├── build_presentation.py       ← build_presentation (python-pptx)
 │   └── qa_inspect.py               ← geometry-level QA
 └── output/
-    └── FemaleDiseasPrevalence.pptx ← the deck
+    └── FemaleDiseasePrevalence.pptx ← the deck
 ```
 
 ---
